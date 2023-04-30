@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.ViewModelFactoryDsl
 import com.atilsamancioglu.koinretrofit.repository.CryptoDownload
 import com.atilsamancioglu.koinretrofit.repository.CryptoDownloadImpl
 import com.atilsamancioglu.koinretrofit.service.CryptoAPI
@@ -12,13 +13,15 @@ import com.atilsamancioglu.koinretrofit.viewmodel.CryptoViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@InstallIn()
+@InstallIn(SingletonComponent::class)
 @Module
-class AppModule {
+object AppModule {
 
     @Singleton
     @Provides
@@ -32,10 +35,6 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun injectCryptoDownload(api : CryptoAPI) = CryptoDownloadImpl(api) as CryptoDownload
-
-    @Singleton
-    @Provides
-    fun injectViewModel(owner : ViewModelStoreOwner ) = ViewModelProvider(owner)[CryptoViewModel::class.java] as ViewModel
-
+    fun injectRepository(cryptoApi :CryptoAPI) = CryptoDownloadImpl(cryptoApi) as CryptoDownload
+    
 }

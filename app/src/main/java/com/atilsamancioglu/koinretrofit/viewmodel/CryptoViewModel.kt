@@ -8,14 +8,14 @@ import com.atilsamancioglu.koinretrofit.service.CryptoAPI
 import com.atilsamancioglu.koinretrofit.util.Resource
 import com.atilsamancioglu.koinretrofit.view.RecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class CryptoViewModel
-        @Inject
+@HiltViewModel
+class CryptoViewModel @Inject
         constructor(private val cryptoDownloadRepository : CryptoDownload) : ViewModel() {
 
     val cryptoList = MutableLiveData<Resource<List<CryptoModel>>>()

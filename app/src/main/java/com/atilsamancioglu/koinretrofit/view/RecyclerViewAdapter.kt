@@ -19,8 +19,8 @@ class RecyclerViewAdapter(private val cryptoList : ArrayList<CryptoModel>, priva
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
-        val itemBinding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RowHolder(itemBinding)
+        val binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return RowHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -30,11 +30,11 @@ class RecyclerViewAdapter(private val cryptoList : ArrayList<CryptoModel>, priva
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
 
         holder.itemView.setOnClickListener {
-            listener.onItemClick(cryptoList.get(position))
+            listener.onItemClick(cryptoList[position])
         }
         holder.itemView.setBackgroundColor(Color.parseColor(colors[position % 8]))
-        holder.binding.cryptoNameText.text = cryptoList.get(position).currency
-        holder.binding.cryptoPriceText.text = cryptoList.get(position).price
+        holder.binding.cryptoNameText.text = cryptoList[position].currency
+        holder.binding.cryptoPriceText.text = cryptoList[position].price
     }
 
 

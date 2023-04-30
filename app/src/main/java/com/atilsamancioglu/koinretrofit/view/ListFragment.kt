@@ -15,8 +15,10 @@ import com.atilsamancioglu.koinretrofit.model.CryptoModel
 import com.atilsamancioglu.koinretrofit.service.CryptoAPI
 import com.atilsamancioglu.koinretrofit.viewmodel.CryptoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ListFragment : Fragment(),RecyclerViewAdapter.Listener {
 
@@ -24,7 +26,7 @@ class ListFragment : Fragment(),RecyclerViewAdapter.Listener {
     private val binding get()= _binding!!
     private var cryptoAdapter = RecyclerViewAdapter(arrayListOf(),this)
 
-    @Inject
+
     lateinit var viewModel: CryptoViewModel
 
 
@@ -38,14 +40,14 @@ class ListFragment : Fragment(),RecyclerViewAdapter.Listener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
+        viewModel = ViewModelProvider(this)[CryptoViewModel::class.java]
         viewModel.getDataFromAPI()
         observeLiveData()
 
 
     }
 
-    fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.cryptoList.observe(viewLifecycleOwner, Observer {cryptos ->
 
             cryptos?.let {
@@ -82,7 +84,6 @@ class ListFragment : Fragment(),RecyclerViewAdapter.Listener {
 
         override fun onDestroyView() {
         super.onDestroyView()
-            //job?.cancel()
             _binding = null
     }
 
