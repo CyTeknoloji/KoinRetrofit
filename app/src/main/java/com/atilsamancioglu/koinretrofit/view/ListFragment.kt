@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.atilsamancioglu.koinretrofit.R
 import com.atilsamancioglu.koinretrofit.databinding.FragmentListBinding
 import com.atilsamancioglu.koinretrofit.model.CryptoModel
 import com.atilsamancioglu.koinretrofit.service.CryptoAPI
@@ -25,9 +30,7 @@ class ListFragment : Fragment(),RecyclerViewAdapter.Listener {
     private var _binding: FragmentListBinding? = null
     private val binding get()= _binding!!
     private var cryptoAdapter = RecyclerViewAdapter(arrayListOf(),this)
-
-
-    lateinit var viewModel: CryptoViewModel
+    private val viewModel : CryptoViewModel by activityViewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,7 +43,6 @@ class ListFragment : Fragment(),RecyclerViewAdapter.Listener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel = ViewModelProvider(this)[CryptoViewModel::class.java]
         viewModel.getDataFromAPI()
         observeLiveData()
 
